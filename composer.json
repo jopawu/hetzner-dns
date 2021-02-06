@@ -1,0 +1,22 @@
+{
+    "name": "jopawu/hetzner-dns",
+    "type": "library",
+    "description": "Hetzner DNS Domain Management",
+    "keywords": ["php", "dns", "hetzner"],
+    "homepage": "http://www.iit-online.de",
+    "license": "MIT",
+    "authors": [
+        {"name": "Björn Heyser", "email": "info@bjoernheyser.de"},
+        {"name": "Johannes Papst", "email": "info@iit-online.de"}
+    ],
+    "require": {
+        "php": "^7.1",
+        "doctrine/lexer": "1.*"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": { "iit\\Hetzner\\DNS\\": "src" }
+    }
+}
