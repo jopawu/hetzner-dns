@@ -2,7 +2,7 @@
     "name": "jopawu/hetzner-dns",
     "type": "library",
     "description": "Hetzner DNS Domain Management",
-    "keywords": ["php", "dns", "hetzner"],
+    "keywords": ["php", "rest", "dns", "hetzner"],
     "homepage": "http://www.iit-online.de",
     "license": "MIT",
     "authors": [
