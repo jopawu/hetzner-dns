@@ -7,20 +7,33 @@ namespace iit\Hetzner\DNS;
  */
 class Service
 {
+    /**
+     * @var Transfer\Endpoint
+     */
+    protected $endpoint;
+
+    /**
+     * @param string $authToken
+     * @param string $apiServer
+     */
     public function __construct($authToken, $apiServer)
     {
         $this->endpoint = new Transfer\Endpoint($authToken, $apiServer);
     }
 
-    public function allZones()
+    /**
+     * @return Transfer\Executor
+     */
+    public function transfer()
     {
-        $request = new Query\GetAllZones($this->endpoint);
-        $response = $request->execute();
+        return new Transfer\Executor($this->endpoint);
     }
 
-    public function updateRecord()
+    /**
+     * @return Data\Factory
+     */
+    public function data()
     {
-        $request = new Command\UpdateRecord($this->endpoint);
-        $response = $request->execute();
+        return new Data\Factory();
     }
 }

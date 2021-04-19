@@ -8,8 +8,9 @@ namespace iit\Hetzner\DNS\Transfer;
 abstract class Request
 {
     const TYPE_GET = 'GET';
-    const TYPE_POST = 'POST';
     const TYPE_PUT = 'PUT';
+    const TYPE_POST = 'POST';
+    const TYPE_DELETE = 'DELETE';
 
     const AUTH_HEADER_NAME = 'Auth-API-Token';
 
@@ -38,11 +39,13 @@ abstract class Request
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $this->getRequestType());
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        echo $this->getAuthHeader() . "\n";
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [$this->getAuthHeader()]);
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            $this->getAuthHeader()
-        ]);
+        if( $this->hasBody() )
+        {
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $this->getBody());
+        }
 
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -53,9 +56,13 @@ abstract class Request
         return new Response($httpCode, $mimeType, $response);
     }
 
-    abstract function getType();
+    abstract protected function getType();
 
-    abstract function buildApiUrl();
+    abstract protected function buildApiUrl();
+
+    abstract protected function hasBody();
+
+    abstract protected function getBody();
 
     abstract public function execute();
 }

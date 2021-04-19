@@ -1,6 +1,6 @@
 <?php
 
-namespace iit\Hetzner\DNS\Query;
+namespace iit\Hetzner\DNS\Transfer\Query;
 
 use iit\Hetzner\DNS\Transfer\Request;
 
@@ -24,4 +24,13 @@ class GetAllZones extends Request
         return '/zones';
     }
 
+    protected function hasBody()
+    {
+        return false;
+    }
+
+    protected function getBody()
+    {
+        return null;
+    }
 }
