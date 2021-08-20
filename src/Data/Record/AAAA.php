@@ -2,14 +2,15 @@
 
 namespace iit\Hetzner\DNS\Data\Record;
 
-use iit\Hetzner\DNS\Data\Zone as Zone;
+use iit\Hetzner\DNS\Data\AbstractRecord;
+use iit\Hetzner\DNS\Data\Zone;
 
 /**
  * @author      Björn Heyser <info@bjoernheyser.de>
  */
-class AAAA extends Record
+class AAAA extends AbstractRecord
 {
-    const TYPE = 'aaaa';
+    const TYPE = 'AAAA';
 
     /**
      * @return string
@@ -42,6 +43,10 @@ class AAAA extends Record
      */
     protected function validateIPv6($IPv6)
     {
+        return $IPv6;
+
+        // TODO: check FILTER_FLAG_IPV6
+
         if( false === filter_var($IPv6, FILTER_FLAG_IPV6) )
         {
             throw new \InvalidArgumentException("invalid IPv6: {$IPv6}");

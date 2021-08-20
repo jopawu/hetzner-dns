@@ -2,14 +2,15 @@
 
 namespace iit\Hetzner\DNS\Data\Record;
 
-use iit\Hetzner\DNS\Data\Zone as Zone;
+use iit\Hetzner\DNS\Data\AbstractRecord;
+use iit\Hetzner\DNS\Data\Zone;
 
 /**
  * @author      Björn Heyser <info@bjoernheyser.de>
  */
-class TXT extends Record
+class TXT extends AbstractRecord
 {
-    const TYPE = 'txt';
+    const TYPE = 'TXT';
 
     /**
      * @return string

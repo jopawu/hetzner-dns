@@ -26,11 +26,17 @@ abstract class Request
         return self::AUTH_HEADER_NAME . ': ' . $this->endpoint->getAuthToken();
     }
 
+    /**
+     * @return string
+     */
     protected function buildRequestUrl()
     {
         return $this->endpoint->getApiServer() . $this->buildApiUrl();
     }
 
+    /**
+     * @return Response
+     */
     final protected function fireRequest()
     {
         $ch = curl_init();
@@ -39,7 +45,7 @@ abstract class Request
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $this->getRequestType());
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [$this->getAuthHeader()]);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [$this->buildAuthHeader()]);
 
         if( $this->hasBody() )
         {
@@ -56,9 +62,9 @@ abstract class Request
         return new Response($httpCode, $mimeType, $response);
     }
 
-    abstract protected function getType();
-
     abstract protected function buildApiUrl();
+
+    abstract protected function getRequestType();
 
     abstract protected function hasBody();
 

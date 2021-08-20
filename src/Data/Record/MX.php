@@ -2,14 +2,15 @@
 
 namespace iit\Hetzner\DNS\Data\Record;
 
-use iit\Hetzner\DNS\Data\Zone as Zone;
+use iit\Hetzner\DNS\Data\AbstractRecord;
+use iit\Hetzner\DNS\Data\Zone;
 
 /**
  * @author      Björn Heyser <info@bjoernheyser.de>
  */
-class MX extends Record
+class MX extends AbstractRecord
 {
-    const TYPE = 'mx';
+    const TYPE = 'MX';
 
     /**
      * @return string

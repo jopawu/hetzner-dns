@@ -2,14 +2,15 @@
 
 namespace iit\Hetzner\DNS\Data\Record;
 
-use iit\Hetzner\DNS\Data\Zone as Zone;
+use iit\Hetzner\DNS\Data\AbstractRecord;
+use iit\Hetzner\DNS\Data\Zone;
 
 /**
  * @author      Björn Heyser <info@bjoernheyser.de>
  */
-class A extends Record
+class A extends AbstractRecord
 {
-    const TYPE = 'a';
+    const TYPE = 'A';
 
     /**
      * @return string
@@ -42,6 +43,10 @@ class A extends Record
      */
     protected function validateIPv4($IPv4)
     {
+        return $IPv4;
+
+        // TODO: check FILTER_FLAG_IPV4
+
         if( false === filter_var($IPv4, FILTER_FLAG_IPV4) )
         {
             throw new \InvalidArgumentException("invalid IPv4: {$IPv4}");

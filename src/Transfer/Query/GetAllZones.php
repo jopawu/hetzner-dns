@@ -3,23 +3,27 @@
 namespace iit\Hetzner\DNS\Transfer\Query;
 
 use iit\Hetzner\DNS\Transfer\Request;
+use iit\Hetzner\DNS\Transfer\Response;
 
 /**
  * @author      Björn Heyser <info@bjoernheyser.de>
  */
 class GetAllZones extends Request
 {
+    /**
+     * @return Response
+     */
     public function execute()
     {
         return $this->fireRequest();
     }
 
-    function getType()
+    protected function getRequestType()
     {
         return Request::TYPE_GET;
     }
 
-    function buildApiUrl()
+    protected function buildApiUrl()
     {
         return '/zones';
     }

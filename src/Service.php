@@ -26,7 +26,7 @@ class Service
      */
     public function transfer()
     {
-        return new Transfer\Executor($this->endpoint);
+        return new Transfer\Executor($this->endpoint, $this->data());
     }
 
     /**

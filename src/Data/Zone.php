@@ -12,16 +12,39 @@ class Zone
     /**
      * @var string
      */
+    protected $id;
+
+    /**
+     * @var string
+     */
     protected $name;
+
+    /**
+     * @var Record[]
+     */
+    protected $records;
 
     /**
      * @param string $name
      */
-    public function __construct($name)
+    public function __construct($id, $name, $records = [])
     {
+        $this->id = $this->validateId($id);
         $this->name = $this->validateName($name);
+        $this->records = $this->validateRecords($records);
     }
 
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
@@ -32,20 +55,53 @@ class Zone
      */
     public function __toString()
     {
-        return json_encode($zone, static::JSON_ENCODE_OPTIONS);
+        return json_encode($this->name, static::JSON_ENCODE_OPTIONS);
     }
 
     /**
-     * @param string $zone
+     * @param string $id
      * @return string
      */
-    protected function validateName($zone)
+    protected function validateId($id)
     {
-        if( preg_match('/^(([a-z])(a-z0-9)*)(\.(([a-z])([a-z0-9])*))*$/', $zone) )
+        if( !preg_match('/^([a-zA-Z0-9]*)$/', $id) )
         {
-            throw new \InvalidArgumentException("invalid zone: {$zone}");
+            throw new \InvalidArgumentException("invalid zone id: {$id}");
+        }
+
+        return $id;
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    protected function validateName($name)
+    {
+        if( !preg_match('/^(([a-z0-9])([a-z0-9\-])*)(\.([a-z])*)$/', $name) )
+        {
+            throw new \InvalidArgumentException("invalid zone name: {$name}");
         }
 
         return $name;
+    }
+
+    /**
+     * @param AbstractRecord[] $records
+     * @return AbstractRecord[]
+     */
+    protected function validateRecords(array $records)
+    {
+        foreach($records as $record)
+        {
+            if( $record instanceof AbstractRecord )
+            {
+                continue;
+            }
+
+            throw new \InvalidArgumentException("invalid record object given");
+        }
+
+        return $records;
     }
 }

@@ -5,17 +5,12 @@ namespace iit\Hetzner\DNS\Data;
 /**
  * @author      Björn Heyser <info@bjoernheyser.de>
  */
-abstract class Record
+abstract class AbstractRecord
 {
     /**
      * @var string
      */
     protected $id;
-
-    /**
-     * @var Zone
-     */
-    protected $zone;
 
     /**
      * @var string
@@ -28,22 +23,15 @@ abstract class Record
     protected $value;
 
     /**
-     * @var int
+     * @param string $id
+     * @param string $name
+     * @param string $value
      */
-    protected $ttl;
-
-    /**
-     * @param Zone $zone
-     * @param $name
-     * @param $value
-     * @param $ttl
-     */
-    public function __construct(Zone $zone, $name, $value, $ttl)
+    public function __construct($id, $name, $value)
     {
-        $this->zone = $zone;
+        $this->id = $this->validateId($id);
         $this->name = $this->validateName($name);
         $this->value = $this->validateValue($value);
-        $this->ttl = $this->validateTtl($ttl);
     }
 
     /**
@@ -52,14 +40,6 @@ abstract class Record
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return Zone
-     */
-    public function getZone()
-    {
-        return $this->zone;
     }
 
     /**
@@ -79,14 +59,6 @@ abstract class Record
     }
 
     /**
-     * @return int
-     */
-    public function getTtl()
-    {
-        return $this->ttl;
-    }
-
-    /**
      * @return string
      */
     abstract public function getType();
@@ -97,10 +69,18 @@ abstract class Record
     abstract public function __toString();
 
     /**
-     * @param string $value
-     * @return $value
+     * @param string $id
+     * @return string
      */
-    abstract function validateValue($value);
+    protected function validateId($id)
+    {
+        if( !preg_match('/^([a-zA-Z0-9]*)$/', $id) )
+        {
+            throw new \InvalidArgumentException("invalid zone id: {$id}");
+        }
+
+        return $id;
+    }
 
     /**
      * @param string $name
@@ -112,11 +92,8 @@ abstract class Record
     }
 
     /**
-     * @param string $ttl
-     * @return string
+     * @param string $value
+     * @return $value
      */
-    protected function validateTtl($ttl)
-    {
-        return $ttl;
-    }
+    abstract function validateValue($value);
 }

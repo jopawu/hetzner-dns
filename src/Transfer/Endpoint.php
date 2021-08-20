@@ -10,7 +10,7 @@ class Endpoint
     protected $authToken = null;
     protected $apiServer = null;
 
-    public function __construct()
+    public function __construct($apiServer, $authToken)
     {
         $this->validateAuthToken($authToken);
         $this->validateApiServer($apiServer);
@@ -34,7 +34,7 @@ class Endpoint
     {
         if( !preg_match('/^([a-zA-Z0-9]){32}$/', $authToken) )
         {
-            throw new InvalidArgumentException('invalid auth token given');
+            throw new \InvalidArgumentException('invalid auth token given');
         }
     }
 

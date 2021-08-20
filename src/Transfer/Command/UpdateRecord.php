@@ -7,24 +7,27 @@ use iit\Hetzner\DNS\Transfer\Request;
 /**
  * @author      Björn Heyser <info@bjoernheyser.de>
  */
-class UpdateRecord
+class UpdateRecord extends Request
 {
     protected $body;
 
     public function execute()
     {
-        $body =
+        throw new \Exception('not yet implemented');
+
+        $body = '';
+
         return $this->fireRequest();
     }
 
-    function getType()
-    {
-        return Request::TYPE_PUT;
-    }
-
-    function buildApiUrl()
+    protected function buildApiUrl()
     {
         return '/zones';
+    }
+
+    function getRequestType()
+    {
+        return Request::TYPE_PUT;
     }
 
     protected function hasBody()
@@ -35,4 +38,5 @@ class UpdateRecord
     protected function getBody()
     {
         return null;
-    }}
+    }
+}
