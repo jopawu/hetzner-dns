@@ -15,18 +15,18 @@ use iit\Hetzner\DNS\Data\Zone;
 class GetAllRecords extends Request
 {
     /**
-     * @var string
+     * @var Zone
      */
-    protected $zoneId;
+    protected $zone;
 
     /**
      * @param Endpoint $endpoint
-     * @param string $zoneId
+     * @param Zone $zone
      */
-    public function __construct(Endpoint $endpoint, $zoneId)
+    public function __construct(Endpoint $endpoint, Zone $zone)
     {
         parent::__construct($endpoint);
-        $this->zoneId = $zoneId;
+        $this->zone = $zone;
     }
 
     /**
@@ -39,7 +39,7 @@ class GetAllRecords extends Request
 
     protected function buildApiUrl()
     {
-        return "/records?zone_id={$this->zoneId}";
+        return "/records?zone_id={$this->zone->getId()}";
     }
 
     protected function getRequestType()

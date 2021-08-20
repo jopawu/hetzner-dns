@@ -2,6 +2,8 @@
 
 namespace iit\Hetzner\DNS\Data;
 
+use iit\Hetzner\DNS\Data\AbstractRecord;
+
 /**
  * @author      Björn Heyser <info@bjoernheyser.de>
  */
@@ -20,17 +22,25 @@ class Zone
     protected $name;
 
     /**
-     * @var Record[]
+     * @var AbstractRecord[]
      */
     protected $records;
 
     /**
+     * @param string $id
      * @param string $name
      */
-    public function __construct($id, $name, $records = [])
+    public function __construct($id, $name)
     {
         $this->id = $this->validateId($id);
         $this->name = $this->validateName($name);
+    }
+
+    /**
+     * @param AbstractRecord[] $records
+     */
+    public function setRecords(array $records)
+    {
         $this->records = $this->validateRecords($records);
     }
 

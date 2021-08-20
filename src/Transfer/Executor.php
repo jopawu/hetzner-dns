@@ -29,9 +29,10 @@ class Executor
     }
 
     /**
+     * @param bool $withRecords
      * @return Data\Zone[]
      */
-    public function allZones()
+    public function allZones($withRecords = false)
     {
         // TODO: consider pagination
 
@@ -42,22 +43,28 @@ class Executor
 
         foreach( $response->getResponseArray()['zones'] as $zoneData )
         {
-            $records = $this->allRecords($zoneData['id']);
-            $zones[] = $this->dataFactory->zone($zoneData['id'], $zoneData['name'], $records);
+            $zone = $this->dataFactory->zone($zoneData['id'], $zoneData['name']);
+
+            if( $withRecords )
+            {
+                $zone->setRecords( $this->allRecords($zone) );
+            }
+
+            $zones[] = $zone;
         }
 
         return $zones;
     }
 
     /**
-     * @param string $zoneId
+     * @param Data\Zone $zone
      * @return Data\Record[]
      */
-    public function allRecords($zoneId)
+    public function allRecords(Data\Zone $zone)
     {
         // TODO: consider pagination
 
-        $request = new Query\GetAllRecords($this->endpoint, $zoneId);
+        $request = new Query\GetAllRecords($this->endpoint, $zone);
         $response = $request->execute();
 
         $records = [];

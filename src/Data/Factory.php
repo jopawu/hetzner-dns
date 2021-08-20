@@ -10,12 +10,11 @@ class Factory
     /**
      * @param string $id
      * @param string $name
-     * @param Record[] $records
      * @return Zone
      */
-    public function zone($id, $name, $records = [])
+    public function zone($id, $name)
     {
-        $zone = new Zone($id, $name, $records);
+        $zone = new Zone($id, $name);
         return $zone;
     }
 
